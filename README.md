@@ -172,7 +172,7 @@ Parameters:
 
 ```C#
 SqlConditionBuilder query = new SelectQuery("employees")
-    .Join("departments", "dno", "dnumber")```
+    .Join("departments", "dno", "dnumber")
     .Select("employees.fname fname", "departments.dname dname")
     .WhereNull("superssn");
 
@@ -259,6 +259,8 @@ Parameters:
 @1 => 50000
 ```
 
+---
+
 ### Ordering Results
 
 ```C#
@@ -330,6 +332,7 @@ SELECT *
 
 ```C#
 IDictionary<string, object> record = query.FetchOneToDict();
+    // This closes DataReader after fetched
 
 Console.WriteLine(record["ssn"]);
 ```
