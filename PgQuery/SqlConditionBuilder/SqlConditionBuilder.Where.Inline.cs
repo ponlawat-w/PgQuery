@@ -95,7 +95,7 @@ namespace PgQuery
         /// </summary>
         /// <param name="statements">Statement instances</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder And(params IStatement[] statements)
+        public SqlConditionBuilder WhereAnd(params IStatement[] statements)
         {
             return this.AddStatement(new LogicAnd(statements));
         }
@@ -105,7 +105,7 @@ namespace PgQuery
         /// </summary>
         /// <param name="statements">Statement instances</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder Or(params IStatement[] statements)
+        public SqlConditionBuilder WhereOr(params IStatement[] statements)
         {
             return this.AddStatement(new LogicOr(statements));
         }

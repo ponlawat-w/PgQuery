@@ -124,7 +124,7 @@ Parameters:
 ```C#
 SqlConditionBuilder query = new SelectQuery("employees");
 query.Where("sex", "M")
-    .Or(
+    .WhereOr(
         query.CreateNotInCondition("dno", new object[] { 1, 2 }),
         query.CreateWhereCondition("salary", 200000, SingleValueOperator.LessOrEqual),
         new LogicAnd(
