@@ -10,6 +10,9 @@ namespace PgQuery
     /// </summary>
     public class PgQueryInsertFieldValueNotMatchException : Exception
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public PgQueryInsertFieldValueNotMatchException() : base("Fields and values do not match")
         {
         }
@@ -75,6 +78,10 @@ namespace PgQuery
             return this;
         }
 
+        /// <summary>
+        /// Generate SQL Query
+        /// </summary>
+        /// <returns>SQL string</returns>
         public override string GenerateQuery()
         {
             if (this.Fields.Length == 0 || this.Values.Count == 0)
@@ -91,6 +98,11 @@ namespace PgQuery
             return $"INSERT INTO {this.Table} ({fieldStatement}) VALUES {valueStatement}{returningStatement}";
         }
 
+        /// <summary>
+        /// Execute command
+        /// </summary>
+        /// <param name="connection">Connection</param>
+        /// <returns>Success or not</returns>
         public override bool Execute(NpgsqlConnection connection = null)
         {
             return this.ReturningField == null ?

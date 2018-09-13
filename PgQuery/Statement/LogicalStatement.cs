@@ -4,9 +4,19 @@ using System.Collections.Generic;
 
 namespace PgQuery
 {
+    /// <summary>
+    /// Logical Operator
+    /// </summary>
     public enum LogicOperator
     {
-        And, Or
+        /// <summary>
+        /// AND
+        /// </summary>
+        And,
+        /// <summary>
+        /// OR
+        /// </summary>
+        Or
     };
 
     /// <summary>
@@ -14,8 +24,19 @@ namespace PgQuery
     /// </summary>
     public class LogicalStatement: IStatement
     {
+        /// <summary>
+        /// Operator to join all statements
+        /// </summary>
         public LogicOperator Operator;
+
+        /// <summary>
+        /// Statements to be joined with given operator
+        /// </summary>
         public IEnumerable<IStatement> Statements;
+
+        /// <summary>
+        /// If true, current statement will be negated
+        /// </summary>
         public bool Negated = false;
 
         /// <summary>

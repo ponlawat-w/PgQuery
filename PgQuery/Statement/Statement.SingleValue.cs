@@ -1,8 +1,42 @@
 ﻿namespace PgQuery
 {
+    /// <summary>
+    /// Operator when operand has single value
+    /// </summary>
     public enum SingleValueOperator
     {
-        Equal, NotEqual, Greater, GreaterOrEqual, Less, LessOrEqual, Like, NotLike
+        /// <summary>
+        /// When values are equal
+        /// </summary>
+        Equal,
+        /// <summary>
+        /// When values are not equal
+        /// </summary>
+        NotEqual,
+        /// <summary>
+        /// When value in field name is greater than given value
+        /// </summary>
+        Greater,
+        /// <summary>
+        /// When value in field name is greater or equals to given value
+        /// </summary>
+        GreaterOrEqual,
+        /// <summary>
+        /// When value in field name is greater than given value
+        /// </summary>
+        Less,
+        /// <summary>
+        /// When value in field name is greater or equals to given value
+        /// </summary>
+        LessOrEqual,
+        /// <summary>
+        /// When value in field name is like given value
+        /// </summary>
+        Like,
+        /// <summary>
+        /// When value in field name is not like given value
+        /// </summary>
+        NotLike
     }
 
     /// <summary>
@@ -25,6 +59,10 @@
             this.ParamIndex = paramBinder.Add(value);
         }
 
+        /// <summary>
+        /// Generate SQL Query
+        /// </summary>
+        /// <returns>SQL string</returns>
         public override string GenerateQuery()
         {
             if (this.Negated)

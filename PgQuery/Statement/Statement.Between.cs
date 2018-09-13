@@ -1,8 +1,18 @@
 ﻿namespace PgQuery
 {
+    /// <summary>
+    /// Operator about between
+    /// </summary>
     public enum BetweenOperator
     {
-        Between, NotBetween
+        /// <summary>
+        /// BETWEEN
+        /// </summary>
+        Between,
+        /// <summary>
+        /// NOT BETWEEN
+        /// </summary>
+        NotBetween
     }
 
     /// <summary>
@@ -29,6 +39,10 @@
             this.ParamIndex2 = paramBinder.Add(upper);
         }
 
+        /// <summary>
+        /// Generate SQL Command
+        /// </summary>
+        /// <returns>SQL string</returns>
         public override string GenerateQuery()
         {
             string operatorString = this.Operator == BetweenOperator.Between ? "BETWEEN" : "NOT BETWEEN";

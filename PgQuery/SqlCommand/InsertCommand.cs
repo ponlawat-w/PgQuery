@@ -10,6 +10,9 @@ namespace PgQuery
     /// </summary>
     public class PgQueryInsertNoValuesException : Exception
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public PgQueryInsertNoValuesException() : base("An exception thrown by trying to insert record with no values")
         {
         }
@@ -20,8 +23,16 @@ namespace PgQuery
     /// </summary>
     public class InsertCommand : SqlBuilder
     {
+        /// <summary>
+        /// Table Name
+        /// </summary>
         public string Table;
+
+        /// <summary>
+        /// Returning Field, if set, the statement expects result after executed
+        /// </summary>
         public string ReturningField;
+
         private IDictionary<string, int> Values;
 
         /// <summary>
@@ -62,6 +73,11 @@ namespace PgQuery
             return this;
         }
 
+        /// <summary>
+        /// Execute command or data reader, depends on returning field
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
         public override bool Execute(NpgsqlConnection connection = null)
         {
             return this.ReturningField == null ?
@@ -70,6 +86,10 @@ namespace PgQuery
                 this.ExecuteReader(this.PrepareCommand(connection));
         }
 
+        /// <summary>
+        /// Generate SQL Query
+        /// </summary>
+        /// <returns>SQL string</returns>
         public override string GenerateQuery()
         {
             if (this.Values.Count == 0)

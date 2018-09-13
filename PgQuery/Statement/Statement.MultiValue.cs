@@ -4,9 +4,19 @@ using System.Linq;
 
 namespace PgQuery
 {
+    /// <summary>
+    /// Operator dealing with multi-value operand
+    /// </summary>
     public enum MultiValueOperator
     {
-        In, NotIn
+        /// <summary>
+        /// IN (...)
+        /// </summary>
+        In,
+        /// <summary>
+        /// NOT IN (...)
+        /// </summary>
+        NotIn
     }
 
     /// <summary>
@@ -39,6 +49,10 @@ namespace PgQuery
             this.Length = indices.Count;
         }
 
+        /// <summary>
+        /// Generate SQL Query
+        /// </summary>
+        /// <returns>SQL string</returns>
         public override string GenerateQuery()
         {
             if (this.Length == 0)

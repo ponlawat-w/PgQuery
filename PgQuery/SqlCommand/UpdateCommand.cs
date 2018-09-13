@@ -61,12 +61,21 @@ namespace PgQuery
             return this;
         }
 
+        /// <summary>
+        /// Execute command
+        /// </summary>
+        /// <param name="connection">Connection</param>
+        /// <returns>Success or not</returns>
         public override bool Execute(NpgsqlConnection connection = null)
         {
             NpgsqlCommand command = this.PrepareCommand(connection);
             return this.ExecuteCommand(command);
         }
 
+        /// <summary>
+        /// Generate SQL Query
+        /// </summary>
+        /// <returns>SQL string</returns>
         public override string GenerateQuery()
         {
             if (this.SetValues.Count == 0)

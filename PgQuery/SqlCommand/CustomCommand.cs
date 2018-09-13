@@ -32,16 +32,30 @@ namespace PgQuery
             return this;
         }
         
+        /// <summary>
+        /// Execute with expecting result (binding DataReader)
+        /// </summary>
+        /// <param name="connection">Connection</param>
+        /// <returns>Success or not</returns>
         protected bool ExecuteForReader(NpgsqlConnection connection = null)
         {
             return this.ExecuteReader(this.PrepareCommand(connection));
         }
         
+        /// <summary>
+        /// Execute command
+        /// </summary>
+        /// <param name="connection">Connection</param>
+        /// <returns>Success or not</returns>
         public override bool Execute(NpgsqlConnection connection = null)
         {
             return this.ExecuteCommand(this.PrepareCommand(connection));
         }
         
+        /// <summary>
+        /// Generate SQL Query
+        /// </summary>
+        /// <returns>SQL string</returns>
         public override string GenerateQuery()
         {
             return this.SqlCommand;

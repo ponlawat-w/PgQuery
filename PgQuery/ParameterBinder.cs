@@ -62,6 +62,10 @@ namespace PgQuery
             }
         }
 
+        /// <summary>
+        /// List all parameters to be binded an their values
+        /// </summary>
+        /// <returns>String</returns>
         public override string ToString()
         {
             return String.Join("\n",

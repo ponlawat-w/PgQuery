@@ -65,12 +65,21 @@ namespace PgQuery
             return this;
         }
 
+        /// <summary>
+        /// Execute data reader
+        /// </summary>
+        /// <param name="connection">Conenction</param>
+        /// <returns>Success or not</returns>
         public override bool Execute(NpgsqlConnection connection = null)
         {
             NpgsqlCommand command = this.PrepareCommand(connection);
             return this.ExecuteReader(command);
         }
 
+        /// <summary>
+        /// Generate SQL Command
+        /// </summary>
+        /// <returns>SQL string</returns>
         public override string GenerateQuery()
         {
             string fieldsQuery = String.Join(", ", this.Fields);

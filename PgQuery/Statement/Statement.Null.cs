@@ -4,9 +4,19 @@ using System.Text;
 
 namespace PgQuery
 {
+    /// <summary>
+    /// Operator when operand is null pointer
+    /// </summary>
     public enum NullOperator
     {
-        IsNull, IsNotNull
+        /// <summary>
+        /// IS NULL
+        /// </summary>
+        IsNull,
+        /// <summary>
+        /// IS NOT NULL
+        /// </summary>
+        IsNotNull
     }
 
     /// <summary>
@@ -25,6 +35,10 @@ namespace PgQuery
             this.FieldName = fieldName;
         }
 
+        /// <summary>
+        /// Generate SQL Query
+        /// </summary>
+        /// <returns>SQL string</returns>
         public override string GenerateQuery()
         {
             string statement = this.FieldName +

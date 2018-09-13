@@ -5,6 +5,9 @@ using Npgsql;
 
 namespace PgQuery
 {
+    /// <summary>
+    /// Class to deal with global connection
+    /// </summary>
     public static class PgQueryGlobal
     {
         /// <summary>
@@ -43,6 +46,7 @@ namespace PgQuery
         /// <param name="password">Password</param>
         /// <param name="database">Database</param>
         /// <param name="port">Port</param>
+        /// <param name="stringToAppend">String to be appended after generated connection string</param>
         /// <returns>NpgsqlConnection object</returns>
         public static NpgsqlConnection CreateNpgsqlConnection(
             string hostName = "localhost",
@@ -50,7 +54,7 @@ namespace PgQuery
             string password = null,
             string database = null,
             int? port = null,
-            string stringToPrepend = null)
+            string stringToAppend = null)
         {
             IDictionary<string, string> connectionConfig = new Dictionary<string, string>();
             connectionConfig["Host"] = hostName;
@@ -72,9 +76,9 @@ namespace PgQuery
             }
 
             string connectionString = String.Join(";", connectionConfig.Select(config => $"{config.Key}={config.Value}"));
-            if (stringToPrepend != null)
+            if (stringToAppend != null)
             {
-                connectionString += stringToPrepend;
+                connectionString += stringToAppend;
             }
             return new NpgsqlConnection(connectionString);
         }
@@ -87,15 +91,16 @@ namespace PgQuery
         /// <param name="password">Password</param>
         /// <param name="database">Database</param>
         /// <param name="port">Port</param>
+        /// <param name="stringToAppend">String to be appended after generated connection string</param>
         public static void EstablishGlobalConnection(
             string hostName = "localhost",
             string username = null,
             string password = null,
             string database = null,
             int? port = null,
-            string stringToPrepend = null)
+            string stringToAppend = null)
         {
-            NpgsqlConnection connection = CreateNpgsqlConnection(hostName, username, password, database, port, stringToPrepend);
+            NpgsqlConnection connection = CreateNpgsqlConnection(hostName, username, password, database, port, stringToAppend);
             SetGlobalConnection(connection);
             connection.Open();
         }

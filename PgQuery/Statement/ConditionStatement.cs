@@ -7,7 +7,14 @@
     /// </summary>
     public abstract class ConditionStatement: IStatement
     {
+        /// <summary>
+        /// Field name to check
+        /// </summary>
         public string FieldName;
+
+        /// <summary>
+        /// If true, the statement will be negated
+        /// </summary>
         public bool Negated = false;
 
         /// <summary>

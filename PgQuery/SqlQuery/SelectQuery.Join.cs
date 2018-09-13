@@ -4,9 +4,31 @@ using System.Linq;
 
 namespace PgQuery
 {
+    /// <summary>
+    /// Join Type
+    /// </summary>
     public enum JoinType
     {
-        Join, InnerJoin, LeftOuterJoin, RightOuterJoin, FullOuterJoin
+        /// <summary>
+        /// JOIN
+        /// </summary>
+        Join,
+        /// <summary>
+        /// INNER JOIN
+        /// </summary>
+        InnerJoin,
+        /// <summary>
+        /// LEFT OUTER JOIN
+        /// </summary>
+        LeftOuterJoin,
+        /// <summary>
+        /// RIGHT OUTER JOIN
+        /// </summary>
+        RightOuterJoin,
+        /// <summary>
+        /// FULL OUTER JOIN
+        /// </summary>
+        FullOuterJoin
     }
 
     public partial class SelectQuery : SqlConditionBuilder

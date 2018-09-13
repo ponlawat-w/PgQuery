@@ -18,11 +18,20 @@ namespace PgQuery
             this.Table = tableName;
         }
 
+        /// <summary>
+        /// Generate SQL Query
+        /// </summary>
+        /// <returns>SQL String</returns>
         public override string GenerateQuery()
         {
             return $"DELETE FROM {this.Table}{this.BuildConditionStatement()}";
         }
 
+        /// <summary>
+        /// Execute command
+        /// </summary>
+        /// <param name="connection">Connection</param>
+        /// <returns>Success or not</returns>
         public override bool Execute(NpgsqlConnection connection = null)
         {
             return this.ExecuteCommand(this.PrepareCommand(connection));

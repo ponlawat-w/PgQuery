@@ -115,6 +115,7 @@ namespace PgQuery
         {
             if (!this.Read())
             {
+                this.CloseDataReader();
                 return null;
             }
 

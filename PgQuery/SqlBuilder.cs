@@ -7,11 +7,24 @@ namespace PgQuery
     /// </summary>
     public abstract partial class SqlBuilder
     {
+        /// <summary>
+        /// Global NpgsqlConnection object
+        /// </summary>
         public static NpgsqlConnection GlobalConnection = null;
 
+        /// <summary>
+        /// Parameter binder
+        /// </summary>
         public ParameterBinder ParamBinder;
+
+        /// <summary>
+        /// Affected rows after command executed
+        /// </summary>
         public int? AffectedRows = null;
 
+        /// <summary>
+        /// True if command has been executed
+        /// </summary>
         protected bool Executed = false;
 
         /// <summary>
@@ -79,6 +92,21 @@ namespace PgQuery
         }
 
         /// <summary>
+        /// Reset execution and terminate all data reader (if any)
+        /// </summary>
+        public void ResetExecution()
+        {
+            if (this.DataReader != null)
+            {
+                this.DataReader.Close();
+                this.DataReader = null;
+            }
+
+            this.AffectedRows = null;
+            this.Executed = false;
+        }
+
+        /// <summary>
         /// Convert current statement to SQL command string
         /// </summary>
         /// <returns>SQL string of statement</returns>
@@ -91,6 +119,10 @@ namespace PgQuery
         /// <returns>Execution success or not</returns>
         public abstract bool Execute(NpgsqlConnection connection = null);
 
+        /// <summary>
+        /// Generate current SQL statement (parameters are binded)
+        /// </summary>
+        /// <returns>String</returns>
         public override string ToString()
         {
             return this.GenerateQuery();

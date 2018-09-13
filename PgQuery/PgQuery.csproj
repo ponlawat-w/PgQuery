@@ -2,6 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <PackageId>PgQuery</PackageId>
+    <Version>0.1.2</Version>
+    <Authors>Ponlawat Weerapanpisit</Authors>
+    <Company>Ponlawat Weerapanpisit</Company>
+    <Description>.NET Core class library for querying and executing PostgreSQL command (extends from Npgsql)</Description>
+    <PackageProjectUrl>https://github.com/ponlawat-w/PgQuery</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ponlawat-w/PgQuery</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>dotnet-core, postgresql, npgsql, postgres, pgsql, sql</PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>2</WarningLevel>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

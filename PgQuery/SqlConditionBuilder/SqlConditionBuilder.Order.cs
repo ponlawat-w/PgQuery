@@ -6,7 +6,7 @@ namespace PgQuery
 {
     public enum OrderType
     {
-        Ascending, Descending
+        Ascending, Descending, Statement
     }
 
     public abstract partial class SqlConditionBuilder : SqlBuilder
@@ -41,6 +41,19 @@ namespace PgQuery
         }
 
         /// <summary>
+        /// Order by custom statement
+        /// </summary>
+        /// <example>
+        /// .OrderByStatement("RAND()")
+        /// </example>
+        /// <param name="statement"></param>
+        /// <returns>self</returns>
+        public SqlConditionBuilder OrderByStatement(string statement)
+        {
+            return this.OrderBy(statement, OrderType.Statement);
+        }
+
+        /// <summary>
         /// Build sql order statement
         /// </summary>
         /// <returns>SQL statement in ORDER part</returns>
@@ -53,8 +66,20 @@ namespace PgQuery
 
             return " ORDER BY " + String.Join(", ", this.Orders.Select(order =>
             {
-                return order.Key + " " + (order.Value == OrderType.Ascending ? "ASC" : "DESC");
+                return order.Key + OrderTypeString(order.Value);
             }));
+        }
+
+        private static string OrderTypeString(OrderType type)
+        {
+            switch (type)
+            {
+                case OrderType.Ascending: return " ASC";
+                case OrderType.Descending: return " DESC";
+                case OrderType.Statement: return "";
+            }
+
+            return "";
         }
     }
 }
