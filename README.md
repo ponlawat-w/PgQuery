@@ -341,7 +341,13 @@ SQL Result:
 SELECT *
     FROM employees
     ORDER BY lname ASC
-    LIMIT 10
+    LIMIT @1
+```
+
+Parameters:
+
+```
+@1 => 10
 ```
 
 ---
@@ -351,7 +357,8 @@ SELECT *
 ```C#
 SqlConditionBuilder query = new SelectQuery("employees")
     .OrderBy("lname")
-    .Limit(5, 10);
+    .Limit(10)
+    .Offset(5);
 ```
 
 SQL Result:
@@ -360,7 +367,14 @@ SQL Result:
 SELECT *
     FROM employees
     ORDER BY lname ASC
-    LIMIT 5, 10
+    LIMIT @1 OFFSET @2
+```
+
+Parameters:
+
+```
+@1 => 10
+@2 => 5
 ```
 
 ---

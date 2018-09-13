@@ -6,8 +6,8 @@ namespace PgQuery
 {
     public abstract partial class SqlConditionBuilder : SqlBuilder
     {
-        int Offset = -1;
-        int Amount = -1;
+        int OffsetParamIndex = -1;
+        int LimitParamIndex = -1;
 
         /// <summary>
         /// Limit result amount
@@ -16,8 +16,7 @@ namespace PgQuery
         /// <returns>self</returns>
         public SqlConditionBuilder Limit(int amount)
         {
-            this.Offset = -1;
-            this.Amount = amount;
+            this.LimitParamIndex = this.ParamBinder.Add(amount);
             return this;
         }
 
@@ -25,12 +24,10 @@ namespace PgQuery
         /// Limit result amount which begins with given offset index
         /// </summary>
         /// <param name="offset">Offset index</param>
-        /// <param name="amount">Maximum result amount starting first row with offset index</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder LimitOffset(int offset, int amount)
+        public SqlConditionBuilder Offset(int offset)
         {
-            this.Offset = offset;
-            this.Amount = amount;
+            this.OffsetParamIndex = this.ParamBinder.Add(offset);
             return this;
         }
 
@@ -40,16 +37,18 @@ namespace PgQuery
         /// <returns>SQL statement in LIMIT part</returns>
         public string BuildLimitStatement()
         {
-            if (this.Offset < 0 && this.Amount < 0)
+            string statement = "";
+
+            if (this.LimitParamIndex > -1)
             {
-                return "";
+                statement += $" LIMIT @{this.LimitParamIndex}";
+            }
+            if (this.OffsetParamIndex > -1)
+            {
+                statement += $" OFFSET @{this.OffsetParamIndex}";
             }
 
-            if (this.Offset < 0)
-            {
-                return $" LIMIT {this.Amount}";
-            }
-            return $" LIMIT {this.Offset}, {this.Amount}";
+            return statement;
         }
     }
 }
