@@ -14,15 +14,24 @@ using PgQuery;
 
 ## Before Using
 
-A PostgreSQL connection has to be established via NpgsqlConnection.
-
-Setting global NpgsqlConnection for PgQuery is recommended for single connection project.
+Establish a `NpgsqlConnection` from given static methods.
 
 ```C#
-NpgsqlConnection connection = new NpgsqlConnection("Host=localhost;Username=YOUR_USERNAME;Password=YOUR_PASSWORD;Database=DATABASE_NAME");
-PgQuery.SqlBuilder.GlobalConnection = connection;
-connection.Open();
+PgQueryGlobal.EstablishGlobalConnection("localhost", "USERNAME", "PASSWORD", "DATABASENAME", PORT?);
+
+if (PgQueryGlobal.GlobalConnectionEstablished)
+{
+    // Do something
+}
+else
+{
+    Console.WriteLine("Cannot connect to database");
+}
+
+PgQueryGlobal.CloseGlobalConnection();
 ```
+
+---
 
 ## Basic Query
 
