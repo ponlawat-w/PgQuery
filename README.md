@@ -168,6 +168,36 @@ Parameters:
 
 ---
 
+### Custom Statement
+
+```C#
+SqlConditionBuilder query = new SelectQuery("employees")
+    .Select("fname", "lname")
+    .Where("salary", 10000, SingleValueOperator.Greater)
+    .WhereCustom("EXISTS (SELECT * FROM departments WHERE mgrssn = employees.ssn AND dnumber != @hqDno)")
+    .SetCustomParameter("hqDno", 1);
+```
+
+SQL Result:
+
+```SQL
+SELECT fname, lname
+    FROM employees
+    WHERE (
+            salary > @1
+        AND EXISTS (SELECT * FROM departments WHERE mgrssn = employees.ssn AND dnumber != @hqDno)
+    )
+```
+
+Parameters:
+
+```
+@1 => 10000
+@hqDno => 1
+```
+
+---
+
 ### Joining Table
 
 ```C#

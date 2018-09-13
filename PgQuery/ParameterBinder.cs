@@ -12,14 +12,16 @@ namespace PgQuery
     public class ParameterBinder
     {
         private int CurrentIndex = 0;
-        private List<KeyValuePair<int, object>> KeyValues;
+        private List<KeyValuePair<int, object>> AutoParameters;
+        private IDictionary<string, object> CustomParameters;
 
         /// <summary>
         /// Constructor
         /// </summary>
         public ParameterBinder()
         {
-            this.KeyValues = new List<KeyValuePair<int, object>>();
+            this.AutoParameters = new List<KeyValuePair<int, object>>();
+            this.CustomParameters = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -29,8 +31,18 @@ namespace PgQuery
         /// <returns>Index of the parameter</returns>
         public int Add(object value)
         {
-            this.KeyValues.Add(new KeyValuePair<int, object>(++this.CurrentIndex, value));
+            this.AutoParameters.Add(new KeyValuePair<int, object>(++this.CurrentIndex, value));
             return this.CurrentIndex;
+        }
+
+        /// <summary>
+        /// Set custom parameter
+        /// </summary>
+        /// <param name="name">Parameter name</param>
+        /// <param name="value">Value</param>
+        public void SetCustom(string name, object value)
+        {
+            this.CustomParameters[name] = value;
         }
 
         /// <summary>
@@ -39,18 +51,25 @@ namespace PgQuery
         /// <param name="command">NpgsqlCommand object instance</param>
         public void Apply(NpgsqlCommand command)
         {
-            foreach (KeyValuePair<int, object> keyValue in this.KeyValues)
+            foreach (KeyValuePair<int, object> keyValue in this.AutoParameters)
             {
                 command.Parameters.AddWithValue(keyValue.Key.ToString(), keyValue.Value);
+            }
+
+            foreach (KeyValuePair<string, object> keyValue in this.CustomParameters)
+            {
+                command.Parameters.AddWithValue(keyValue.Key, keyValue.Value);
             }
         }
 
         public override string ToString()
         {
             return String.Join("\n",
-                this.KeyValues.Select(
+                this.AutoParameters.Select(
                     keyValue => $"@{keyValue.Key} => " + (keyValue.Value == null ? "NULL" : keyValue.Value.ToString())
-                )
+                ).Concat(this.CustomParameters.Select(
+                    keyValue => $"@{keyValue.Key} => " + (keyValue.Value == null ? "NULL" : keyValue.Value.ToString())
+                ))
            );
         }
     }

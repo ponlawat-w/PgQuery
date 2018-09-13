@@ -23,5 +23,17 @@ namespace PgQuery
         {
             return this.BuildWhereStatement() + this.BuildOrderStatement() + this.BuildLimitStatement();
         }
+
+        /// <summary>
+        /// Set custom parameter
+        /// </summary>
+        /// <param name="paramName">Parameter name</param>
+        /// <param name="value">Value</param>
+        /// <returns>self</returns>
+        public SqlConditionBuilder SetCustomParameter(string paramName, object value)
+        {
+            this.ParamBinder.SetCustom(paramName, value);
+            return this;
+        }
     }
 }

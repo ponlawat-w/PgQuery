@@ -10,7 +10,6 @@ namespace PgQuery
     public class CustomCommand : SqlBuilder
     {
         readonly string SqlCommand;
-        readonly IDictionary<string, object> Parameters;
 
         /// <summary>
         /// Custom SQL Command Constructor
@@ -19,7 +18,6 @@ namespace PgQuery
         public CustomCommand(string sql)
         {
             this.SqlCommand = sql;
-            this.Parameters = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -30,40 +28,18 @@ namespace PgQuery
         /// <returns>self</returns>
         public CustomCommand AddParameter(string paramName, object value)
         {
-            this.Parameters[paramName] = value;
+            this.ParamBinder.SetCustom(paramName, value);
             return this;
-        }
-
-        /// <summary>
-        /// Command prepare statement
-        /// </summary>
-        /// <param name="connection">Postgres Connection</param>
-        /// <returns>Parameter-binded NpgsqlCommand object</returns>
-        private NpgsqlCommand Prepare(NpgsqlConnection connection = null)
-        {
-            NpgsqlCommand command = this.PrepareCommand(connection);
-            foreach (KeyValuePair<string, object> parameter in this.Parameters)
-            {
-                command.Parameters.AddWithValue(parameter.Key, parameter.Value);
-            }
-            return command;
         }
         
         protected bool ExecuteForReader(NpgsqlConnection connection = null)
         {
-            NpgsqlCommand command = this.Prepare();
-            return this.ExecuteReader(command);
+            return this.ExecuteReader(this.PrepareCommand(connection));
         }
         
         public override bool Execute(NpgsqlConnection connection = null)
         {
-            this.AffectedRows = this.Prepare(connection).ExecuteNonQuery();
-            if (this.AffectedRows < 0)
-            {
-                return false;
-            }
-            this.Executed = true;
-            return true;
+            return this.ExecuteCommand(this.PrepareCommand(connection));
         }
         
         public override string GenerateQuery()

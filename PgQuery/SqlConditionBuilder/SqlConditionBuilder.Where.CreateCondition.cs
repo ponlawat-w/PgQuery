@@ -100,5 +100,15 @@ namespace PgQuery
                 Operator = BetweenOperator.NotBetween
             };
         }
+
+        /// <summary>
+        /// Create an instance of custom statement
+        /// </summary>
+        /// <param name="statement">Statement</param>
+        /// <returns>Condition Instance</returns>
+        public CustomStatement CreateCustomStatementCondition(string statement)
+        {
+            return new CustomStatement(statement);
+        }
     }
 }

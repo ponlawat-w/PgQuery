@@ -91,6 +91,16 @@ namespace PgQuery
         }
 
         /// <summary>
+        /// Append a custom statement (with AND logic to existing conditional statement)
+        /// </summary>
+        /// <param name="statement">Statement</param>
+        /// <returns>self</returns>
+        public SqlConditionBuilder WhereCustom(string statement)
+        {
+            return this.AddStatement(this.CreateCustomStatementCondition(statement));
+        }
+
+        /// <summary>
         /// Append an AND logical statement (with AND logic to existing conditional statement)
         /// </summary>
         /// <param name="statements">Statement instances</param>
