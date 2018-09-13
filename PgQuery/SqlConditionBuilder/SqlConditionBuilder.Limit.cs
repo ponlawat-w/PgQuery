@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PgQuery
+﻿namespace PgQuery
 {
     public abstract partial class SqlConditionBuilder : SqlBuilder
     {
