@@ -45,6 +45,11 @@ namespace PgQuery
         /// <returns>SQL string of statement</returns>
         public string GenerateQuery()
         {
+            if (this.Statements.Count() == 0)
+            {
+                return "true";
+            }
+
             IEnumerable<string> queryStatements = this.Statements.Select(queryStatement => queryStatement.GenerateQuery());
 
             string statement = "";

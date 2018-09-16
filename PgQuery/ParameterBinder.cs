@@ -63,6 +63,26 @@ namespace PgQuery
         }
 
         /// <summary>
+        /// Get automatic indexed parameter value
+        /// </summary>
+        /// <param name="index">Parameter index</param>
+        /// <returns>Parameter Value</returns>
+        public object GetAutoValue(int index)
+        {
+            return this.AutoParameters.Find(param => param.Key == index).Value;
+        }
+
+        /// <summary>
+        /// Get custom parameter value
+        /// </summary>
+        /// <param name="name">Parameter name</param>
+        /// <returns>Parameter value</returns>
+        public object GetCustomValue(string name)
+        {
+            return this.CustomParameters[name];
+        }
+
+        /// <summary>
         /// List all parameters to be binded an their values
         /// </summary>
         /// <returns>String</returns>

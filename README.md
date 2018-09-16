@@ -475,13 +475,14 @@ SQL Result:
 DELETE FROM employees
     WHERE dno = @1
     ORDER BY salary ASC
-    LIMIT 1
+    LIMIT @2
 ```
 
 Parameters:
 
 ```
 @1 => 5
+@2 => 1
 ```
 
 ---
