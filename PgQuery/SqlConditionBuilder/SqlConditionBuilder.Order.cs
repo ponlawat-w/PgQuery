@@ -9,7 +9,7 @@ namespace PgQuery
         Ascending, Descending, Statement
     }
 
-    public abstract partial class SqlConditionBuilder : SqlBuilder
+    public abstract partial class SqlConditionBuilder<CommandType> : SqlBuilder
     {
         List<KeyValuePair<string, OrderType>> Orders = null;
 
@@ -19,7 +19,7 @@ namespace PgQuery
         /// <param name="fieldName">Field to order</param>
         /// <param name="orderType">Order type (default is ascending)</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder OrderBy(string fieldName, OrderType orderType = OrderType.Ascending)
+        public CommandType OrderBy(string fieldName, OrderType orderType = OrderType.Ascending)
         {
             if (this.Orders == null)
             {
@@ -27,7 +27,7 @@ namespace PgQuery
             }
 
             this.Orders.Add(new KeyValuePair<string, OrderType>(fieldName, orderType));
-            return this;
+            return (CommandType)(object)this;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace PgQuery
         /// </summary>
         /// <param name="fieldName">Field to order</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder OrderByDescending(string fieldName)
+        public CommandType OrderByDescending(string fieldName)
         {
             return this.OrderBy(fieldName, OrderType.Descending);
         }
@@ -48,7 +48,7 @@ namespace PgQuery
         /// </example>
         /// <param name="statement"></param>
         /// <returns>self</returns>
-        public SqlConditionBuilder OrderByStatement(string statement)
+        public CommandType OrderByStatement(string statement)
         {
             return this.OrderBy(statement, OrderType.Statement);
         }

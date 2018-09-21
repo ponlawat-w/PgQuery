@@ -31,7 +31,7 @@ namespace PgQuery
         FullOuterJoin
     }
 
-    public partial class SelectQuery : SqlConditionBuilder
+    public partial class SelectQuery : SqlConditionBuilder<SelectQuery>
     {
         List<KeyValuePair<string, JoinType>> JoinStatements = null;
 

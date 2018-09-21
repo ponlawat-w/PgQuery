@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PgQuery
 {
-    public abstract partial class SqlConditionBuilder : SqlBuilder
+    public abstract partial class SqlConditionBuilder<CommandType> : SqlBuilder
     {
         /// <summary>
         /// Append a comparing statement (with AND logic to existing conditional statement)
@@ -14,7 +14,7 @@ namespace PgQuery
         /// <param name="whereOperator">Operator (default is equal)</param>
         /// <param name="negated">Negate the statement (default is false)</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder Where(
+        public CommandType Where(
             string fieldName,
             object value,
             SingleValueOperator whereOperator = SingleValueOperator.Equal,
@@ -29,7 +29,7 @@ namespace PgQuery
         /// </summary>
         /// <param name="fieldName">Field name</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder WhereNull(string fieldName)
+        public CommandType WhereNull(string fieldName)
         {
             return this.AddStatement(this.CreateNullCondition(fieldName));
         }
@@ -39,7 +39,7 @@ namespace PgQuery
         /// </summary>
         /// <param name="fieldName">Field name</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder WhereNotNull(string fieldName)
+        public CommandType WhereNotNull(string fieldName)
         {
             return this.AddStatement(this.CreateNotNullCondition(fieldName));
         }
@@ -50,7 +50,7 @@ namespace PgQuery
         /// <param name="fieldName">Field name</param>
         /// <param name="values">Values</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder WhereIn(string fieldName, IEnumerable<object> values)
+        public CommandType WhereIn(string fieldName, IEnumerable<object> values)
         {
             return this.AddStatement(this.CreateInCondition(fieldName, values));
         }
@@ -61,7 +61,7 @@ namespace PgQuery
         /// <param name="fieldName">Field name</param>
         /// <param name="values">Values</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder WhereNotIn(string fieldName, IEnumerable<object> values)
+        public CommandType WhereNotIn(string fieldName, IEnumerable<object> values)
         {
             return this.AddStatement(this.CreateNotInCondition(fieldName, values));
         }
@@ -73,7 +73,7 @@ namespace PgQuery
         /// <param name="lower">Lower bound</param>
         /// <param name="upper">Upper bound</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder WhereBetween(string fieldName, object lower, object upper)
+        public CommandType WhereBetween(string fieldName, object lower, object upper)
         {
             return this.AddStatement(this.CreateBetweenCondition(fieldName, lower, upper));
         }
@@ -85,7 +85,7 @@ namespace PgQuery
         /// <param name="lower">Lower bound</param>
         /// <param name="upper">Upper bound</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder WhereNotBetween(string fieldName, object lower, object upper)
+        public CommandType WhereNotBetween(string fieldName, object lower, object upper)
         {
             return this.AddStatement(this.CreateNotBetweenCondition(fieldName, lower, upper));
         }
@@ -95,7 +95,7 @@ namespace PgQuery
         /// </summary>
         /// <param name="statement">Statement</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder WhereCustom(string statement)
+        public CommandType WhereCustom(string statement)
         {
             return this.AddStatement(this.CreateCustomStatementCondition(statement));
         }
@@ -105,7 +105,7 @@ namespace PgQuery
         /// </summary>
         /// <param name="statements">Statement instances</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder WhereAnd(params IStatement[] statements)
+        public CommandType WhereAnd(params IStatement[] statements)
         {
             return this.AddStatement(new LogicAnd(statements));
         }
@@ -115,7 +115,7 @@ namespace PgQuery
         /// </summary>
         /// <param name="statements">Statement instances</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder WhereOr(params IStatement[] statements)
+        public CommandType WhereOr(params IStatement[] statements)
         {
             return this.AddStatement(new LogicOr(statements));
         }

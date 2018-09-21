@@ -8,7 +8,7 @@ namespace PgQuery
     /// <summary>
     /// Query of selecting records from table
     /// </summary>
-    public partial class SelectQuery : SqlConditionBuilder
+    public partial class SelectQuery : SqlConditionBuilder<SelectQuery>
     {
         string Table;
         string TableAlias = null;

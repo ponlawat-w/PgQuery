@@ -8,11 +8,6 @@ namespace PgQuery
     public abstract partial class SqlBuilder
     {
         /// <summary>
-        /// Global NpgsqlConnection object
-        /// </summary>
-        public static NpgsqlConnection GlobalConnection = null;
-
-        /// <summary>
         /// Parameter binder
         /// </summary>
         public ParameterBinder ParamBinder;
@@ -51,11 +46,7 @@ namespace PgQuery
         /// <returns>NpgsqlCommand object instance</returns>
         public NpgsqlCommand PrepareCommand(NpgsqlConnection connection = null)
         {
-            connection = connection == null ? GlobalConnection : connection;
-            if (connection == null)
-            {
-                throw new NpgsqlException("No connection provided");
-            }
+            connection = GetConnection(connection);
 
             NpgsqlCommand command = new NpgsqlCommand(this.GenerateQuery(), connection);
             this.ApplyParameters(command);
@@ -126,6 +117,16 @@ namespace PgQuery
         public override string ToString()
         {
             return this.GenerateQuery();
+        }
+
+        private static NpgsqlConnection GetConnection(NpgsqlConnection connection = null)
+        {
+            if (connection == null && PgQueryGlobal.Connection == null)
+            {
+                throw new NpgsqlException("No connection provided");
+            }
+
+            return connection == null ? PgQueryGlobal.Connection : connection;
         }
     }
 }

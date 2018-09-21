@@ -7,6 +7,9 @@ using Npgsql.Schema;
 
 namespace PgQuery
 {
+    /// <summary>
+    /// An exception when trying to read data from non-returned query
+    /// </summary>
     public class PgQueryResultReaderException : Exception
     {
         public PgQueryResultReaderException() : base("Exception thrown by trying to read result from non-returned query")
@@ -138,6 +141,46 @@ namespace PgQuery
             this.CloseDataReader();
 
             return records.ToArray();
+        }
+
+        /// <summary>
+        /// Fetch current record (after read)
+        /// </summary>
+        /// <returns>Data record object</returns>
+        public DataRecord FetchCurrenct()
+        {
+            IDictionary<string, object> record = this.FetchCurrentToDict();
+            return record == null ? null : new DataRecord(record);
+        }
+
+        /// <summary>
+        /// Read and fetch a record as data record object as out parameter
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns>Fetch status</returns>
+        public bool Fetch(out DataRecord record)
+        {
+            bool fetched = this.FetchToDict(out IDictionary<string, object> dict);
+            record = fetched ? new DataRecord(dict) : null;
+            return fetched;
+        }
+
+        /// <summary>
+        /// Fetch only one record and close data reader
+        /// </summary>
+        /// <returns>Data record object</returns>
+        public DataRecord FetchOne()
+        {
+            return new DataRecord(this.FetchOneToDict());
+        }
+
+        /// <summary>
+        /// Fetch all records to data record collection
+        /// </summary>
+        /// <returns>Data record collection object</returns>
+        public DataRecordCollection FetchAll()
+        {
+            return new DataRecordCollection(this);
         }
     }
 }

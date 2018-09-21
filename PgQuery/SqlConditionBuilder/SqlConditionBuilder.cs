@@ -6,7 +6,7 @@ namespace PgQuery
     /// <summary>
     /// Class of SQL command / query which allows having condition statements
     /// </summary>
-    public abstract partial class SqlConditionBuilder : SqlBuilder
+    public abstract partial class SqlConditionBuilder<CommandType> : SqlBuilder
     {
         /// <summary>
         /// Constructor
@@ -30,10 +30,10 @@ namespace PgQuery
         /// <param name="paramName">Parameter name</param>
         /// <param name="value">Value</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder SetCustomParameter(string paramName, object value)
+        public CommandType SetCustomParameter(string paramName, object value)
         {
             this.ParamBinder.SetCustom(paramName, value);
-            return this;
+            return (CommandType)(object)this;
         }
     }
 }

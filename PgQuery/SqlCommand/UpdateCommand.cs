@@ -18,7 +18,7 @@ namespace PgQuery
     /// <summary>
     /// Data updating command
     /// </summary>
-    public class UpdateCommand : SqlConditionBuilder
+    public class UpdateCommand : SqlConditionBuilder<UpdateCommand>
     {
         private string Table;
         private IDictionary<string, string> SetValues;

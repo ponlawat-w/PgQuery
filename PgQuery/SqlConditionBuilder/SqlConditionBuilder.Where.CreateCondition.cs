@@ -2,7 +2,7 @@
 
 namespace PgQuery
 {
-    public abstract partial class SqlConditionBuilder : SqlBuilder
+    public abstract partial class SqlConditionBuilder<CommandType> : SqlBuilder
     {
         /// <summary>
         /// Create an instance of where condition, forked from current object

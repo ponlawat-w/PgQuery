@@ -32,7 +32,7 @@ namespace SqlBuilderUnitTest
         [Fact]
         public void NestedConditionalTest()
         {
-            SqlConditionBuilder query = new SelectQuery("employees");
+            SelectQuery query = new SelectQuery("employees");
             Assert.Equal("SELECT * FROM employees WHERE (sex = @1 AND (dno NOT IN (@2, @3) OR salary <= @4 OR (fname LIKE @5 AND superssn IS NOT NULL)))",
                 query.Where("sex", "M")
                     .WhereOr(

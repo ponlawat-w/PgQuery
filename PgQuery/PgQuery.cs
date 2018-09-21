@@ -15,19 +15,13 @@ namespace PgQuery
         /// </summary>
         public static bool GlobalConnectionEstablished
         {
-            get => SqlBuilder.GlobalConnection.State == System.Data.ConnectionState.Open;
+            get => Connection.State == System.Data.ConnectionState.Open;
         }
 
         /// <summary>
         /// Global connection object
         /// </summary>
-        public static NpgsqlConnection GlobalConnection
-        {
-            get => SqlBuilder.GlobalConnection;
-            set {
-                SqlBuilder.GlobalConnection = value;
-            }
-        }
+        public static NpgsqlConnection Connection { get; set; } = null;
 
         /// <summary>
         /// Set global connection
@@ -35,7 +29,7 @@ namespace PgQuery
         /// <param name="connection">NpgsqlConnection object</param>
         public static void SetGlobalConnection(NpgsqlConnection connection)
         {
-            SqlBuilder.GlobalConnection = connection;
+            Connection = connection;
         }
 
         /// <summary>
@@ -104,15 +98,25 @@ namespace PgQuery
             SetGlobalConnection(connection);
             connection.Open();
         }
+        
+        /// <summary>
+        /// Establish a new global connection using given connection string, and open it
+        /// </summary>
+        /// <param name="connectionString">Connection string</param>
+        public static void EstablishGlobalConnection(string connectionString)
+        {
+            SetGlobalConnection(new NpgsqlConnection(connectionString));
+            Connection.Open();
+        }
 
         /// <summary>
         /// Close global connection
         /// </summary>
         public static void CloseGlobalConnection()
         {
-            if (SqlBuilder.GlobalConnection != null)
+            if (Connection != null)
             {
-                SqlBuilder.GlobalConnection.Close();
+                Connection.Close();
             }
         }
     }

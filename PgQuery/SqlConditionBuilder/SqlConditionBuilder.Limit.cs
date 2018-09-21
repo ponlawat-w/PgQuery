@@ -1,6 +1,6 @@
 ﻿namespace PgQuery
 {
-    public abstract partial class SqlConditionBuilder : SqlBuilder
+    public abstract partial class SqlConditionBuilder<CommandType> : SqlBuilder
     {
         int OffsetParamIndex = -1;
         int LimitParamIndex = -1;
@@ -10,10 +10,10 @@
         /// </summary>
         /// <param name="amount">Maximum result amount</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder Limit(int amount)
+        public CommandType Limit(int amount)
         {
             this.LimitParamIndex = this.ParamBinder.Add(amount);
-            return this;
+            return (CommandType)(object)this;
         }
 
         /// <summary>
@@ -21,10 +21,10 @@
         /// </summary>
         /// <param name="offset">Offset index</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder Offset(int offset)
+        public CommandType Offset(int offset)
         {
             this.OffsetParamIndex = this.ParamBinder.Add(offset);
-            return this;
+            return (CommandType)(object)this;
         }
 
         /// <summary>

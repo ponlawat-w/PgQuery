@@ -38,7 +38,7 @@ PgQueryGlobal.CloseGlobalConnection();
 For example, selecting all female employees and print their full names:
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees")
+SelectQuery query = new SelectQuery("employees")
     .Select("fname", "minit AS middle_name", "lname")
     .Where("sex", "F");
 
@@ -84,7 +84,7 @@ Result:
 ### Where Clause
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees")
+SelectQuery query = new SelectQuery("employees")
     .Select("fname")
     .Where("sex", "M")
     .Where("salary", 30000, SingleValueOperator.Greater)
@@ -131,7 +131,7 @@ Parameters:
 ### And, Or Operator
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees");
+SelectQuery query = new SelectQuery("employees");
 query.Where("sex", "M")
     .WhereOr(
         query.CreateNotInCondition("dno", new object[] { 1, 2 }),
@@ -180,7 +180,7 @@ Parameters:
 ### Custom Statement
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees")
+SelectQuery query = new SelectQuery("employees")
     .Select("fname", "lname")
     .Where("salary", 10000, SingleValueOperator.Greater)
     .WhereCustom("EXISTS (SELECT * FROM departments WHERE mgrssn = employees.ssn AND dnumber != @hqDno)")
@@ -210,7 +210,7 @@ Parameters:
 ### Joining Table
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees")
+SelectQuery query = new SelectQuery("employees")
     .Join("departments", "dno", "dnumber")
     .Select("employees.fname fname", "departments.dname dname")
     .WhereNull("superssn");
@@ -235,7 +235,7 @@ SELECT employees.fname fname, departments.dname dname
 ### Self-Joining Table
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees")
+SelectQuery query = new SelectQuery("employees")
     .Alias("em")
     .JoinAlias("employees", "superem", "superssn", "ssn", JoinType.LeftOuterJoin)
     .Select("em.fname e_fname", "superem.fname s_fname")
@@ -274,7 +274,7 @@ Parameters:
 ### Joining Multi-Table
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees")
+SelectQuery query = new SelectQuery("employees")
     .Alias("em")
     .Join("departments", "dno", "dnumber", JoinType.InnerJoin)
     .JoinAlias("employees", "superem", "superssn", "ssn", JoinType.LeftOuterJoin)
@@ -303,7 +303,7 @@ Parameters:
 ### Ordering Results
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees")
+SelectQuery query = new SelectQuery("employees")
     .WhereBetween("salary", 20000, 100000)
     .OrderByDescending("salary")
     .OrderBy("fname");
@@ -330,7 +330,7 @@ Parameters:
 ### Limiting Results
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees")
+SelectQuery query = new SelectQuery("employees")
     .OrderBy("lname")
     .Limit(10);
 ```
@@ -355,7 +355,7 @@ Parameters:
 ### Limiting Results with Offset
 
 ```C#
-SqlConditionBuilder query = new SelectQuery("employees")
+SelectQuery query = new SelectQuery("employees")
     .OrderBy("lname")
     .Limit(10)
     .Offset(5);
@@ -427,7 +427,7 @@ query.CloseDataReader();
 ## Updating Records
 
 ```C#
-SqlConditionBuilder update = new UpdateCommand("employees")
+UpdateCommand update = new UpdateCommand("employees")
     .Set("fname", "Jun")
     .Set("lname", "Smith")
     .SetWithStatement("salary", "salary + 1000")
@@ -460,7 +460,7 @@ Parameters:
 ## Deleting Records
 
 ```C#
-SqlConditionBuilder delete = new DeleteCommand("employees")
+DeleteCommand delete = new DeleteCommand("employees")
     .Where("dno", 5)
     .OrderBy("salary")
     .Limit(1);

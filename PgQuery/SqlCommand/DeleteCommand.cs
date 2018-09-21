@@ -5,7 +5,7 @@ namespace PgQuery
     /// <summary>
     /// Record deleting command
     /// </summary>
-    public class DeleteCommand : SqlConditionBuilder
+    public class DeleteCommand : SqlConditionBuilder<DeleteCommand>
     {
         string Table;
 

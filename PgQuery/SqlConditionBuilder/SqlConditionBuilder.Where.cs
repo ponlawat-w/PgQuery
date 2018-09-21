@@ -2,7 +2,7 @@
 
 namespace PgQuery
 {
-    public abstract partial class SqlConditionBuilder : SqlBuilder
+    public abstract partial class SqlConditionBuilder<CommandType> : SqlBuilder
     {
         public IStatement WhereStatement = null;
 
@@ -11,7 +11,7 @@ namespace PgQuery
         /// </summary>
         /// <param name="statement">Statement</param>
         /// <returns>self</returns>
-        public SqlConditionBuilder AddStatement(IStatement statement)
+        public CommandType AddStatement(IStatement statement)
         {
             if (this.WhereStatement is LogicalStatement)
             {
@@ -29,7 +29,7 @@ namespace PgQuery
                 this.WhereStatement = statement;
             }
 
-            return this;
+            return (CommandType)(object)this;
         }
 
         /// <summary>
