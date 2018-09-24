@@ -379,6 +379,86 @@ Parameters:
 
 ---
 
+### Group By and Having
+
+#### Example 1
+
+```C#
+new SelectQuery("employees")
+    .Select("COUNT(*)")
+    .Where("salary", 1000, SingleValueOperator.Greater)
+    .GroupBy("dno");
+```
+
+SQL Result:
+
+```SQL
+SELECT COUNT(*)
+    FROM employees
+        WHERE salary > @1
+    GROUP BY dno
+```
+
+#### Example 2
+
+```C#
+new SelectQuery("employees")
+    .Select("MAX(salary)")
+    .GroupBy("dno")
+    .Having("COUNT(*)", 10, SingleValueOperator.Greater);
+```
+
+SQL Result:
+
+```SQL
+SELECT MAX(salary)
+    FROM employees
+    GROUP BY dno
+    HAVING COUNT(*) > @1
+```
+
+#### Example 3
+
+```C#
+new SelectQuery("employees")
+    .Select("MIN(salary)", "MAX(salary)")
+    .Where("salary", 1000, SingleValueOperator.Greater)
+    .GroupBy("dno")
+    .Having("MIN(salary)", 2000, SingleValueOperator.Less)
+    .Having("MAX(salary)", 50000, SingleValueOperator.Greater)
+```
+
+SQL Result:
+
+```SQL
+SELECT MIN(salary), MAX(salary)
+    FROM employees
+        WHERE salary > @1
+    GROUP BY dno
+        HAVING (MIN(salary) < @2 AND MAX(salary) > @3)
+```
+
+
+#### Example 4
+
+```C#
+new SelectQuery("departments")
+    .Select("mgrssn")
+    .GroupBy("mgrssn")
+    .HavingCustom("COUNT(*) > @minCount OR MAX(mgrstartdate) < @lessDate")
+    .SetCustomParameter("minCount", 1)
+    .SetCustomParameter("lessDate", DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)))
+```
+
+```SQL
+SELECT mgrssn
+    FROM departments
+    GROUP BY mgrssn
+        HAVING COUNT(*) > @minCount OR MAX(mgrstartdate) < @lessDate
+```
+
+---
+
 ## Getting Result
 
 ### Get Only One Record
