@@ -98,6 +98,38 @@ namespace SqlBuilderUnitTest
                     .Limit(10)
                     .Offset(5).GenerateQuery());
         }
+
+        [Fact]
+        public void GroupByTest()
+        {
+            Assert.Equal("SELECT COUNT(*) FROM employees WHERE salary > @1 GROUP BY dno",
+                new SelectQuery("employees")
+                    .Select("COUNT(*)")
+                    .Where("salary", 1000, SingleValueOperator.Greater)
+                    .GroupBy("dno").GenerateQuery());
+
+            Assert.Equal("SELECT MAX(salary) FROM employees GROUP BY dno HAVING COUNT(*) > @1",
+                new SelectQuery("employees")
+                    .Select("MAX(salary)")
+                    .GroupBy("dno")
+                    .Having("COUNT(*)", 10, SingleValueOperator.Greater).GenerateQuery());
+
+            Assert.Equal("SELECT MIN(salary), MAX(salary) FROM employees WHERE salary > @1 GROUP BY dno HAVING (MIN(salary) < @2 AND MAX(salary) > @3)",
+                new SelectQuery("employees")
+                    .Select("MIN(salary)", "MAX(salary)")
+                    .Where("salary", 1000, SingleValueOperator.Greater)
+                    .GroupBy("dno")
+                    .Having("MIN(salary)", 2000, SingleValueOperator.Less)
+                    .Having("MAX(salary)", 50000, SingleValueOperator.Greater).GenerateQuery());
+
+            Assert.Equal("SELECT mgrssn FROM departments GROUP BY mgrssn HAVING COUNT(*) > @minCount OR MAX(mgrstartdate) < @lessDate",
+                new SelectQuery("departments")
+                    .Select("mgrssn")
+                    .GroupBy("mgrssn")
+                    .HavingCustom("COUNT(*) > @minCount OR MAX(mgrstartdate) < @lessDate")
+                    .SetCustomParameter("minCount", 1)
+                    .SetCustomParameter("lessDate", DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0))).GenerateQuery());
+        }
     }
 
     public class UpdateTest

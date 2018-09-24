@@ -171,7 +171,8 @@ namespace PgQuery
         /// <returns>Data record object</returns>
         public DataRecord FetchOne()
         {
-            return new DataRecord(this.FetchOneToDict());
+            IDictionary<string, object> record = this.FetchOneToDict();
+            return record == null ? null : new DataRecord(record);
         }
 
         /// <summary>

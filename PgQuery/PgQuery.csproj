@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PackageId>PgQuery</PackageId>
-    <Version>0.1.4</Version>
+    <Version>0.1.6</Version>
     <Authors>Ponlawat Weerapanpisit</Authors>
     <Company>Ponlawat Weerapanpisit</Company>
     <Description>.NET Core class library for querying and executing PostgreSQL command (extends from Npgsql)</Description>
@@ -11,8 +11,7 @@
     <RepositoryUrl>https://github.com/ponlawat-w/PgQuery</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>dotnet-core, postgresql, npgsql, postgres, pgsql, sql</PackageTags>
-    <PackageReleaseNotes>- Add DataRecord and DataRecordCollection
-- Change Class Type of SqlConditionBuilder</PackageReleaseNotes>
+    <PackageReleaseNotes>- Add Group By and Having</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

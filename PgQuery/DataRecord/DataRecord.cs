@@ -122,6 +122,16 @@ namespace PgQuery
         }
 
         /// <summary>
+        /// Check if record contains field
+        /// </summary>
+        /// <param name="fieldName">Field name</param>
+        /// <returns>result</returns>
+        public bool ContainsField(string fieldName)
+        {
+            return this.RecordDictionary.ContainsKey(fieldName);
+        }
+
+        /// <summary>
         /// Get field names
         /// </summary>
         /// <returns>Field names</returns>

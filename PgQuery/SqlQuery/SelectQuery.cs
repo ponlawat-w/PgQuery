@@ -83,7 +83,7 @@ namespace PgQuery
         public override string GenerateQuery()
         {
             string fieldsQuery = String.Join(", ", this.Fields);
-            return $"SELECT {fieldsQuery} FROM {this.TableNameInFromStatement}{this.BuildJoinStatement()}{this.BuildConditionStatement()}";
+            return $"SELECT {fieldsQuery} FROM {this.TableNameInFromStatement}{this.BuildJoinStatement()}{this.BuildConditionStatement()}{this.BuildGroupByStatement()}";
         }
     }
 }
